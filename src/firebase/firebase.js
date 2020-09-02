@@ -1,4 +1,6 @@
-import * as firebase from "firebase";
+const firebase = require("firebase/app");
+require("firebase/database");
+const shortid = require("shortid");
 
 const config = {
   apiKey: "AIzaSyBHWQI9OHyQGAAvCnLQ-RwUT20cbf7kH8U",
@@ -15,4 +17,27 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-export { firebase, database as default };
+const getMapPollById = (id) => {
+  return database
+    .ref(`mapPolls/${id}`)
+    .once("value")
+    .then((snap) => {
+      return snap.val();
+    });
+};
+
+const pushMapPoll = ({ question }) => {
+  const newId = shortid.generate();
+  database
+    .ref(`mapPolls/${newId}`)
+    .set({ question })
+    .then(() => {
+      console.log("Test question set successfully");
+    })
+    .catch((e) => {
+      console.log("Something went wrong", e);
+    });
+  return newId;
+};
+
+export { firebase, pushMapPoll, getMapPollById, database as default };

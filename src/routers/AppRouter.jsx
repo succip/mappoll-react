@@ -4,6 +4,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Dashboard from "../components/Dashboard";
 import CreateMapPoll from "../components/CreateMapPoll";
+import MapPoll from "../components/MapPoll";
+import ShareMapPoll from "../components/ShareMapPoll";
 
 const AppRouter = () => {
   return (
@@ -13,6 +15,8 @@ const AppRouter = () => {
         <Switch>
           <Route path="/" component={Dashboard} exact={true} />
           <Route path="/create" component={CreateMapPoll} />
+          <Route path="/mappoll/:mapPollId" component={MapPoll} />
+          <Route path="/share/:mapPollId" component={ShareMapPoll} />
         </Switch>
         <Footer />
       </div>

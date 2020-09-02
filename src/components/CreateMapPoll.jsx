@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MapBuilder from "./MapBuilder";
+import { pushMapPoll } from "../firebase/firebase";
 
 class CreateMapPoll extends Component {
   state = { question: "" };
@@ -9,13 +10,15 @@ class CreateMapPoll extends Component {
     this.setState(() => ({ question }));
   };
 
-  onSubmit = (e) => {
+  onSubmit = async (e) => {
     e.preventDefault();
+    const newPollId = await pushMapPoll({ question: this.state.question });
+    this.props.history.push("/share/" + newPollId);
   };
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <h3>Create a MapPoll</h3>
         <div className="container">
           <form onSubmit={this.onSubmit}>
@@ -28,7 +31,7 @@ class CreateMapPoll extends Component {
 
             <div className="row justify-content-center">
               <div className="col-10">
-                <MapBuilder />
+                <MapBuilder lng={-113.117932} />
               </div>
             </div>
 
@@ -39,7 +42,7 @@ class CreateMapPoll extends Component {
             </div>
           </form>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
