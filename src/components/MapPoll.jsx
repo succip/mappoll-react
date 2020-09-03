@@ -16,7 +16,6 @@ class MapPoll extends Component {
   componentDidMount() {
     const mapId = this.props.match.params.mapPollId;
     getMapPollById(mapId).then((mapPoll) => {
-      console.log(mapPoll);
       this.setState({
         mapId,
         ...mapPoll,
@@ -29,7 +28,7 @@ class MapPoll extends Component {
       <>
         <p>MapId: {this.state.mapId}</p>
         <h3>{this.state.question}</h3>
-        <MapPicker message={"hello!"} />
+        <MapPicker mapProps={this.state.mapProps} />
       </>
     );
   }
