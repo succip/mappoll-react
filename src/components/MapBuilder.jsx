@@ -24,7 +24,7 @@ class MapBuilder extends Component {
       zoom: 9,
     });
 
-    map.addControl(new mapboxgl.NavigationControl(), "top-left");
+    map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
     map.addControl(
       new MapBoxGeocoder({
         accessToken: mapboxgl.accessToken,
