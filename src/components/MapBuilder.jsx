@@ -5,21 +5,40 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 class MapBuilder extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      lng: -123.117932,
-      lat: 49.257362,
-      zoom: 9,
-    };
+    this.state = {};
   }
+
+  handleMapChange = () => {
+    this.props.onMapChange({
+      ...this.state,
+    });
+  };
 
   componentDidMount() {
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [this.state.lng, this.state.lat],
-      zoom: this.state.zoom,
+      center: [-123.117932, 49.257362],
+      zoom: 9,
     });
+
     map.addControl(new mapboxgl.NavigationControl());
+
+    map.on("move", () => {
+      this.props.onMapChange({
+        lng: map.getCenter().lng.toFixed(4),
+        lat: map.getCenter().lat.toFixed(4),
+        zoom: map.getZoom().toFixed(2),
+      });
+    });
+
+    map.on("render", () => {
+      this.props.onMapChange({
+        lng: map.getCenter().lng.toFixed(4),
+        lat: map.getCenter().lat.toFixed(4),
+        zoom: map.getZoom().toFixed(2),
+      });
+    });
   }
 
   render() {

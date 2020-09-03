@@ -26,11 +26,11 @@ const getMapPollById = (id) => {
     });
 };
 
-const pushMapPoll = ({ question }) => {
+const pushMapPoll = (mapPoll) => {
   const newId = shortid.generate();
   database
     .ref(`mapPolls/${newId}`)
-    .set({ question })
+    .set(mapPoll)
     .then(() => {
       console.log("Test question set successfully");
     })

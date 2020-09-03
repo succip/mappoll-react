@@ -3,16 +3,27 @@ import MapBuilder from "./MapBuilder";
 import { pushMapPoll } from "../firebase/firebase";
 
 class CreateMapPoll extends Component {
-  state = { question: "" };
+  state = {
+    question: "",
+    mapProps: {
+      lng: 0,
+      lat: 0,
+      zoom: 0,
+    },
+  };
+
+  handleMapProps = (mapProps) => {
+    this.setState({ ...this.state, mapProps });
+  };
 
   onQuestionChange = (e) => {
     const question = e.target.value;
-    this.setState(() => ({ question }));
+    this.setState(() => ({ ...this.state, question }));
   };
 
   onSubmit = async (e) => {
     e.preventDefault();
-    const newPollId = await pushMapPoll({ question: this.state.question });
+    const newPollId = await pushMapPoll({ ...this.state });
     this.props.history.push("/share/" + newPollId);
   };
 
@@ -31,7 +42,7 @@ class CreateMapPoll extends Component {
 
             <div className="row justify-content-center">
               <div className="col-10">
-                <MapBuilder lng={-113.117932} />
+                <MapBuilder onMapChange={this.handleMapProps} />
               </div>
             </div>
 
