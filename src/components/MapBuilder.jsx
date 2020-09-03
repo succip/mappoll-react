@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import mapboxgl from "mapbox-gl";
+import MapBoxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
 class MapBuilder extends Component {
@@ -22,7 +24,13 @@ class MapBuilder extends Component {
       zoom: 9,
     });
 
-    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(new mapboxgl.NavigationControl(), "top-left");
+    map.addControl(
+      new MapBoxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl,
+      })
+    );
 
     map.on("move", () => {
       this.props.onMapChange({

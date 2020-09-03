@@ -26,7 +26,6 @@ class MapPoll extends Component {
   render() {
     return (
       <>
-        <p>MapId: {this.state.mapId}</p>
         <h3>{this.state.question}</h3>
         <MapPicker mapProps={this.state.mapProps} />
       </>
