@@ -11,6 +11,7 @@ class ShareMapPoll extends Component {
         <h3>
           <a href={`/mappoll/` + this.mapPollId}>mappoll.com/{this.mapPollId} </a>
         </h3>
+        <p>Share this link with your friends to start polling.</p>
       </>
     );
   }

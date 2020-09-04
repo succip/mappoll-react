@@ -1,5 +1,5 @@
 import React from "react";
-require("jquery");
+require("bootstrap");
 
 const Header = () => {
   return (
