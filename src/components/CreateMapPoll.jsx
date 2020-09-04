@@ -29,7 +29,7 @@ class CreateMapPoll extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <h3>Create a MapPoll</h3>
         <div className="container">
           <form onSubmit={this.onSubmit}>
@@ -53,7 +53,7 @@ class CreateMapPoll extends Component {
             </div>
           </form>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 }
