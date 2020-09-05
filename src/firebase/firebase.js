@@ -32,7 +32,7 @@ const pushMapPoll = (mapPoll) => {
     .ref(`mapPolls/${newId}`)
     .set(mapPoll)
     .then(() => {
-      console.log("Test question set successfully");
+      console.log("Poll pushed successfully");
     })
     .catch((e) => {
       console.log("Something went wrong", e);

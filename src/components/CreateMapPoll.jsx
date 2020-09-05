@@ -34,14 +34,14 @@ class CreateMapPoll extends Component {
         <div className="container">
           <form onSubmit={this.onSubmit}>
             <div className="row justify-content-center">
-              <div className="col-6 form-group">
+              <div className="col-9 form-group">
                 <label htmlFor="question">Poll Question</label>
                 <input type="text" className="form-control" id="question" autoComplete="off" onChange={this.onQuestionChange} />
               </div>
             </div>
 
             <div className="row justify-content-center">
-              <div className="col-10">
+              <div className="col-11">
                 <MapBuilder onMapChange={this.handleMapProps} />
               </div>
             </div>
