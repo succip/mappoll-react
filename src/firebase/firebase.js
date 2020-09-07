@@ -40,4 +40,17 @@ const pushMapPoll = (mapPoll) => {
   return newId;
 };
 
+// under construction
+const pushResponse = (mapId) => {
+  database
+    .ref(`mapPolls/${mapId}/coords`)
+    .push({ lng: 2394, lat: 23094 })
+    .then(() => {
+      console.log("Response pushed successfully");
+    })
+    .catch((e) => {
+      console.log("Something went wrong", e);
+    });
+};
+
 export { firebase, pushMapPoll, getMapPollById, database as default };
