@@ -25,13 +25,13 @@ class MapPicker extends Component {
 
   dropMaker = ({ lng, lat }, map) => {
     new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
-    pushResponse(this.props.mapInfo.mapId, { lng, lat })
+    pushResponse(this.props.mapInfo.mapId, { lng, lat });
   };
 
   render() {
     return (
       <>
-        <label htmlFor="map">Submit Your Response</label>
+        <label htmlFor="map">Click somewhere on the map to submit your response:</label>
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-10">
