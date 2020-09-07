@@ -26,7 +26,7 @@ class ShareMapPoll extends Component {
         </div>
         <div className="row justify-content-center">
           <h3>
-            <a href={`/mappoll/` + this.state.mapPollId}>mappoll.com/{this.state.mapPollId} </a>
+            <a href={`/mappoll/` + this.state.mapPollId}>mappoll.com/mappoll/{this.state.mapPollId} </a>
           </h3>
           <button className="ml-3 btn btn-outline-primary btn-sm" onClick={this.copyShareLinkToClipboard}>
             Copy <BiCopy />
