@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import mapboxgl from "mapbox-gl";
+import { pushResponse } from "../firebase/firebase";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
 class MapPicker extends Component {
@@ -8,8 +9,8 @@ class MapPicker extends Component {
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [this.props.mapProps.lng, this.props.mapProps.lat],
-      zoom: this.props.mapProps.zoom,
+      center: [this.props.mapInfo.mapProps.lng, this.props.mapInfo.mapProps.lat],
+      zoom: this.props.mapInfo.mapProps.zoom,
     });
     map.addControl(new mapboxgl.NavigationControl());
 
@@ -24,6 +25,7 @@ class MapPicker extends Component {
 
   dropMaker = ({ lng, lat }, map) => {
     new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+    pushResponse(this.props.mapInfo.mapId, { lng, lat })
   };
 
   render() {

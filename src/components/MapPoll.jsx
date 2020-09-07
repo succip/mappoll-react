@@ -27,7 +27,7 @@ class MapPoll extends Component {
     return (
       <>
         <h3>{this.state.question}</h3>
-        <MapPicker mapProps={this.state.mapProps} />
+        <MapPicker mapInfo={this.state} />
       </>
     );
   }
