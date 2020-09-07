@@ -32,7 +32,7 @@ class ShareMapPoll extends Component {
             Copy <BiCopy />
           </button>
         </div>
-        <h4 className="mt-3 text-secondary">Share this link with your friends to start polling!</h4>
+        <h4 className="mt-3 text-secondary">Share this link with your friends to start polling.</h4>
       </div>
     );
   }
