@@ -6,7 +6,7 @@ class ShareMapPoll extends Component {
 
   componentDidMount() {}
 
-  copyToClipboard = () => {
+  copyShareLinkToClipboard = () => {
     const url = window.location.href;
     const urlDomain = url.replace("http://", "").replace("https://", "").split(/[/?#]/)[0];
     const shareLink = urlDomain + this.props.location.pathname;
@@ -28,7 +28,7 @@ class ShareMapPoll extends Component {
           <h3>
             <a href={`/mappoll/` + this.state.mapPollId}>mappoll.com/{this.state.mapPollId} </a>
           </h3>
-          <button className="ml-3 btn btn-outline-primary btn-sm" onClick={this.copyToClipboard}>
+          <button className="ml-3 btn btn-outline-primary btn-sm" onClick={this.copyShareLinkToClipboard}>
             Copy <BiCopy />
           </button>
         </div>
