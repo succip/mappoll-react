@@ -4,12 +4,12 @@ import { BiCopy } from "react-icons/bi";
 class ShareMapPoll extends Component {
   state = { mapPollId: this.props.match.params.mapPollId };
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   copyShareLinkToClipboard = () => {
     const url = window.location.href;
     const urlDomain = url.replace("http://", "").replace("https://", "").split(/[/?#]/)[0];
-    const shareLink = urlDomain + this.props.location.pathname;
+    const shareLink = `${urlDomain}/mappoll/${this.state.mapPollId}`;
     const dummyElement = document.createElement("textarea");
     document.body.appendChild(dummyElement);
     dummyElement.value = shareLink;
