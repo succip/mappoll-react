@@ -4,6 +4,7 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 
 class MapPicker extends Component {
   componentDidUpdate() {
+    const popupContent = `<button class="btn btn-primary btn-sm">Confirm</button>`;
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: "mapbox://styles/mapbox/streets-v11",
@@ -11,7 +12,15 @@ class MapPicker extends Component {
       zoom: this.props.mapProps.zoom,
     });
     map.addControl(new mapboxgl.NavigationControl());
+
+    map.on("click", (e) => {
+      new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+    });
   }
+
+  dropMaker = () => {
+    console.log("marker dropped!");
+  };
 
   render() {
     return (
