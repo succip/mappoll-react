@@ -1,12 +1,3 @@
-Mapbox GL starter code:
-var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
-
-mapboxgl.accessToken = 'pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ';
-var map = new mapboxgl.Map({
-container: 'YOUR_CONTAINER_ELEMENT_ID',
-style: 'mapbox://styles/mapbox/streets-v11'
-});
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
