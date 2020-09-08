@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import mapboxgl from "mapbox-gl";
-import { pushResponse } from "../firebase/firebase";
+import { pushResponse, getResponses } from "../firebase/firebase";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
 class MapPicker extends Component {
@@ -21,11 +21,25 @@ class MapPicker extends Component {
         popup.remove();
       });
     });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    map.on("click", (e) => {
+      const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+      document.getElementById("confirmPoint").addEventListener("click", () => {
+        this.dropMaker(e.lngLat, map);
+        popup.remove();
+      });
+    });
   }
 
   dropMaker = ({ lng, lat }, map) => {
     new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
     pushResponse(this.props.mapInfo.mapId, { lng, lat });
+  };
+
+  addResponsesToMap = async () => {
+    const points = await getResponses(this.props.mapInfo.mapId);
   };
 
   render() {
@@ -35,6 +49,7 @@ class MapPicker extends Component {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-10">
+              <button onClick={this.addResponsesToMap}>Test function</button>
               <div className="mapContainer" id="map" ref={(el) => (this.mapContainer = el)}></div>
             </div>
           </div>

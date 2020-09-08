@@ -35,12 +35,11 @@ const pushMapPoll = (mapPoll) => {
       console.log("Poll pushed successfully");
     })
     .catch((e) => {
-      console.log("Something went wrong", e);
+      console.log("Error: ", e);
     });
   return newId;
 };
 
-// under construction
 const pushResponse = (mapPollId, { lng, lat }) => {
   database
     .ref(`mapPolls/${mapPollId}/coords`)
@@ -49,8 +48,18 @@ const pushResponse = (mapPollId, { lng, lat }) => {
       console.log("Response pushed successfully");
     })
     .catch((e) => {
-      console.log("Something went wrong", e);
+      console.log("Error: ", e);
     });
 };
 
-export { firebase, pushMapPoll, getMapPollById, pushResponse, database as default };
+const getResponses = (mapPollId) => {
+  return database
+    .ref(`mapPolls/${mapPollId}/coords`)
+    .once("value")
+    .then((snapshot) => {
+      const arr = Object.values(snapshot.val());
+      return arr;
+    });
+};
+
+export { firebase, pushMapPoll, getMapPollById, pushResponse, getResponses, database as default };
