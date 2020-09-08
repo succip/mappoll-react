@@ -21,16 +21,6 @@ class MapPicker extends Component {
         popup.remove();
       });
     });
-
-    map.addControl(new mapboxgl.NavigationControl());
-
-    map.on("click", (e) => {
-      const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
-      document.getElementById("confirmPoint").addEventListener("click", () => {
-        this.dropMaker(e.lngLat, map);
-        popup.remove();
-      });
-    });
   }
 
   dropMaker = ({ lng, lat }, map) => {
@@ -49,7 +39,6 @@ class MapPicker extends Component {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-10">
-              <button onClick={this.addResponsesToMap}>Test function</button>
               <div className="mapContainer" id="map" ref={(el) => (this.mapContainer = el)}></div>
             </div>
           </div>
