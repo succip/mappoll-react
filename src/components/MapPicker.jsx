@@ -17,19 +17,26 @@ class MapPicker extends Component {
     map.on("click", (e) => {
       const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
       document.getElementById("confirmPoint").addEventListener("click", () => {
-        this.dropMaker(e.lngLat, map);
+        this.submitMarker(e.lngLat, map);
+        this.addResponsesToMap(map);
         popup.remove();
       });
     });
   }
 
-  dropMaker = ({ lng, lat }, map) => {
+  submitMarker = ({ lng, lat }, map) => {
     new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
     pushResponse(this.props.mapInfo.mapId, { lng, lat });
   };
 
-  addResponsesToMap = async () => {
+  addResponsesToMap = async (map) => {
     const points = await getResponses(this.props.mapInfo.mapId);
+
+    points.forEach((pt, i) => {
+      setTimeout(() => {
+        new mapboxgl.Marker().setLngLat([pt.lng, pt.lat]).addTo(map);
+      }, i * 30);
+    });
   };
 
   render() {
