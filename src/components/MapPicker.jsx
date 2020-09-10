@@ -5,16 +5,17 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 
 class MapPicker extends Component {
   componentDidUpdate() {
-    const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [this.props.mapInfo.mapProps.lng, this.props.mapInfo.mapProps.lat],
       zoom: this.props.mapInfo.mapProps.zoom,
     });
-    map.addControl(new mapboxgl.NavigationControl());
 
+    map.addControl(new mapboxgl.NavigationControl());
     map.on("click", (e) => {
+      console.log("test");
+      const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
       const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
       document.getElementById("confirmPoint").addEventListener("click", () => {
         this.submitMarker(e.lngLat, map);
