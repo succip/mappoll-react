@@ -4,6 +4,11 @@ import { pushResponse, getResponses } from "../firebase/firebase";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
 class MapPicker extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   componentDidUpdate() {
     const map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -14,7 +19,6 @@ class MapPicker extends Component {
 
     map.addControl(new mapboxgl.NavigationControl());
     map.on("click", (e) => {
-      console.log("test");
       const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
       const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
       document.getElementById("confirmPoint").addEventListener("click", () => {
@@ -36,7 +40,7 @@ class MapPicker extends Component {
     points.forEach((pt, i) => {
       setTimeout(() => {
         new mapboxgl.Marker().setLngLat([pt.lng, pt.lat]).addTo(map);
-      }, i * 30);
+      }, i * 50);
     });
   };
 
