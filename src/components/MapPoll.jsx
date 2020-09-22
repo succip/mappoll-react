@@ -11,6 +11,7 @@ class MapPoll extends Component {
       lat: 0,
       zoom: 0,
     },
+    isLoading: true,
   };
 
   componentDidMount() {
@@ -19,11 +20,16 @@ class MapPoll extends Component {
       this.setState({
         mapId,
         ...mapPoll,
+        isLoading: false,
       });
     });
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <div>Loading your poll...</div>;
+    }
+
     return (
       <>
         <h3>{this.state.question}</h3>

@@ -1,63 +1,78 @@
-import React, { Component } from "react";
+// test map Id
+// 5KVcmKsBa
+import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { pushResponse, getResponses } from "../firebase/firebase";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { getResponses, pushResponse } from "../firebase/firebase";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
-class MapPicker extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+const MapPicker = ({ mapInfo }) => {
+  const [map, setMap] = useState(null);
+  const [mapPoints, setPoints] = useState([]);
+  const mapContainer = useRef(null);
 
-  componentDidUpdate() {
-    const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [this.props.mapInfo.mapProps.lng, this.props.mapInfo.mapProps.lat],
-      zoom: this.props.mapInfo.mapProps.zoom,
-    });
+  const addResponsesToMap = async (map, excludeId) => {
+    const points = await getResponses(mapInfo.mapId);
+    const finalPoints = points.filter((point) => point.id !== excludeId);
 
-    map.addControl(new mapboxgl.NavigationControl());
-    map.on("click", (e) => {
-      const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
-      const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
-      document.getElementById("confirmPoint").addEventListener("click", () => {
-        this.submitMarker(e.lngLat, map);
-        this.addResponsesToMap(map);
-        popup.remove();
-      });
-    });
-  }
-
-  submitMarker = ({ lng, lat }, map) => {
-    new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
-    pushResponse(this.props.mapInfo.mapId, { lng, lat });
-  };
-
-  addResponsesToMap = async (map) => {
-    const points = await getResponses(this.props.mapInfo.mapId);
-
-    points.forEach((pt, i) => {
+    finalPoints.forEach((pt, i) => {
       setTimeout(() => {
-        new mapboxgl.Marker().setLngLat([pt.lng, pt.lat]).addTo(map);
+        new mapboxgl.Marker().setLngLat([pt.location.lng, pt.location.lat]).addTo(map);
       }, i * 50);
     });
   };
 
-  render() {
-    return (
-      <>
-        <label htmlFor="map">Click somewhere on the map to submit your response:</label>
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-10">
-              <div className="mapContainer" id="map" ref={(el) => (this.mapContainer = el)}></div>
-            </div>
+  useEffect(() => {
+    const initializeMap = ({ setMap, mapContainer }) => {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [mapInfo.mapProps.lng, mapInfo.mapProps.lat],
+        zoom: mapInfo.mapProps.zoom,
+      });
+
+      map.on("load", () => {
+        setMap(map);
+        map.resize();
+      });
+
+      const onClick = (e) => {
+        const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
+        const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
+        document.getElementById("confirmPoint").addEventListener("click", async () => {
+          new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
+          const excludeId = await pushResponse(mapInfo.mapId, e.lngLat);
+          addResponsesToMap(map, excludeId);
+          popup.remove();
+        });
+        map.off("click", onClick);
+      };
+
+      map.on("click", onClick);
+    };
+
+    if (!map) initializeMap({ setMap, mapContainer });
+  }, [map]);
+
+  useEffect(() => {
+    // getResponses(mapInfo.mapId).then((points) => {
+    //   setPoints([1, 2, 3, 4]);
+    //   console.log("mappoints", mapPoints);
+    // });
+  }, []);
+
+  return (
+    <React.Fragment>
+      <label htmlFor="map">Click somewhere on the map to submit your response:</label>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-10">
+            <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />
           </div>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default MapPicker;

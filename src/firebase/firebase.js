@@ -41,11 +41,12 @@ const pushMapPoll = (mapPoll) => {
 };
 
 const pushResponse = (mapPollId, { lng, lat }) => {
-  database
+  return database
     .ref(`mapPolls/${mapPollId}/coords`)
     .push({ lng, lat })
-    .then(() => {
+    .then((id) => {
       console.log("Response pushed successfully");
+      return id.key;
     })
     .catch((e) => {
       console.log("Error: ", e);
@@ -57,9 +58,17 @@ const getResponses = (mapPollId) => {
     .ref(`mapPolls/${mapPollId}/coords`)
     .once("value")
     .then((snapshot) => {
-      const arr = Object.values(snapshot.val());
-      return arr;
+      const entries = Object.entries(snapshot.val());
+      let points = [];
+      entries.forEach((pt) => {
+        const newPoint = {
+          id: pt[0],
+          location: pt[1],
+        };
+        points.push(newPoint);
+      });
+
+      return points;
     });
 };
-
 export { firebase, pushMapPoll, getMapPollById, pushResponse, getResponses, database as default };
