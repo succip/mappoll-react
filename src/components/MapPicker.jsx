@@ -40,7 +40,11 @@ const MapPicker = ({ mapInfo }) => {
         const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
         const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
         document.getElementById("confirmPoint").addEventListener("click", async () => {
-          new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
+          new mapboxgl.Marker({
+            color: "#e66a6a",
+          })
+            .setLngLat(e.lngLat)
+            .addTo(map);
           const excludeId = await pushResponse(mapInfo.mapId, e.lngLat);
           addResponsesToMap(map, excludeId);
           popup.remove();
