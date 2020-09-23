@@ -33,6 +33,7 @@ class MapPoll extends Component {
     return (
       <>
         <h3>{this.state.question}</h3>
+        {/* <input value={title} onChange={(e) => setTitle(e.target.value)} />f */}
         <MapPicker mapInfo={this.state} />
       </>
     );

@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Things to add still
+
+1. Option to add name
+2. Zoom to extent of markers
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -40,10 +40,10 @@ const pushMapPoll = (mapPoll) => {
   return newId;
 };
 
-const pushResponse = (mapPollId, { lng, lat }) => {
+const pushResponse = (mapPollId, { lng, lat }, name) => {
   return database
     .ref(`mapPolls/${mapPollId}/coords`)
-    .push({ lng, lat })
+    .push({ lng, lat, name })
     .then((id) => {
       console.log("Response pushed successfully");
       return id.key;
@@ -61,9 +61,14 @@ const getResponses = (mapPollId) => {
       const entries = Object.entries(snapshot.val());
       let points = [];
       entries.forEach((pt) => {
+        console.log("pt", pt);
         const newPoint = {
           id: pt[0],
-          location: pt[1],
+          name: pt[1].name,
+          location: {
+            lng: pt[1].lng,
+            lat: pt[1].lat,
+          },
         };
         points.push(newPoint);
       });

@@ -8,16 +8,26 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 
 const MapPicker = ({ mapInfo }) => {
   const [map, setMap] = useState(null);
-  const [mapPoints, setPoints] = useState([]);
   const mapContainer = useRef(null);
 
   const addResponsesToMap = async (map, excludeId) => {
     const points = await getResponses(mapInfo.mapId);
-    const finalPoints = points.filter((point) => point.id !== excludeId);
+    const displayPoints = points.filter((point) => point.id !== excludeId);
 
-    finalPoints.forEach((pt, i) => {
+    displayPoints.forEach((pt, i) => {
       setTimeout(() => {
-        new mapboxgl.Marker().setLngLat([pt.location.lng, pt.location.lat]).addTo(map);
+        const responseMarker = new mapboxgl.Marker().setLngLat([pt.location.lng, pt.location.lat]).setPopup(new mapboxgl.Popup().setHTML(pt.name));
+        const responseMarkerDiv = responseMarker.getElement();
+
+        responseMarkerDiv.addEventListener("mouseenter", () => {
+          responseMarker.togglePopup();
+        });
+
+        responseMarkerDiv.addEventListener("mouseleave", () => {
+          responseMarker.togglePopup();
+        });
+
+        responseMarker.addTo(map);
       }, i * 50);
     });
   };
@@ -45,11 +55,12 @@ const MapPicker = ({ mapInfo }) => {
           })
             .setLngLat(e.lngLat)
             .addTo(map);
-          const excludeId = await pushResponse(mapInfo.mapId, e.lngLat);
+          const name = document.getElementById("name").value;
+          const excludeId = await pushResponse(mapInfo.mapId, e.lngLat, name);
           addResponsesToMap(map, excludeId);
           popup.remove();
+          map.off("click", onClick);
         });
-        map.off("click", onClick);
       };
 
       map.on("click", onClick);
@@ -58,19 +69,18 @@ const MapPicker = ({ mapInfo }) => {
     if (!map) initializeMap({ setMap, mapContainer });
   }, [map]);
 
-  useEffect(() => {
-    // getResponses(mapInfo.mapId).then((points) => {
-    //   setPoints([1, 2, 3, 4]);
-    //   console.log("mappoints", mapPoints);
-    // });
-  }, []);
-
   return (
     <React.Fragment>
-      <label htmlFor="map">Click somewhere on the map to submit your response:</label>
       <div className="container">
         <div className="row justify-content-center">
+          <div className="col-6 mb-3 form-group">
+            <label htmlFor="name">Your Name:</label>
+            <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" />
+          </div>
+        </div>
+        <div className="row justify-content-center">
           <div className="col-10">
+            <label htmlFor="map">Click somewhere on the map to submit your response:</label>
             <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />
           </div>
         </div>
