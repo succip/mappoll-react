@@ -8,7 +8,6 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 
 const MapPicker = ({ mapInfo }) => {
   const [map, setMap] = useState(null);
-  const [name, setName] = useState("");
   const mapContainer = useRef(null);
 
   const addResponsesToMap = async (map, excludeId) => {
@@ -53,11 +52,22 @@ const MapPicker = ({ mapInfo }) => {
         const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
         const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
         document.getElementById("confirmPoint").addEventListener("click", async () => {
-          new mapboxgl.Marker({
+          const youMarker = new mapboxgl.Marker({
             color: "#e66a6a",
           })
             .setLngLat(e.lngLat)
+            .setPopup(new mapboxgl.Popup().setHTML("You"))
             .addTo(map);
+          const youMarkerDiv = youMarker.getElement();
+
+          youMarkerDiv.addEventListener("mouseenter", () => {
+            youMarker.togglePopup();
+          });
+
+          youMarkerDiv.addEventListener("mouseleave", () => {
+            youMarker.togglePopup();
+          });
+
           const name = document.getElementById("name").value;
           const excludeId = await pushResponse(mapInfo.mapId, e.lngLat, name);
           addResponsesToMap(map, excludeId);
@@ -79,15 +89,7 @@ const MapPicker = ({ mapInfo }) => {
           <div className="col-6 mb-3 form-group">
             <label htmlFor="name">Your Name:</label>
             {/* <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" /> */}
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              id="name"
-              type="text"
-              className="form-control form-control-sm"
-              autoComplete="off"
-              placeholder="Anonymous"
-            />
+            <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" />
           </div>
         </div>
         <div className="row justify-content-center">
