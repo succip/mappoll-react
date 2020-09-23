@@ -42,6 +42,12 @@ class CreateMapPoll extends Component {
 
             <div className="row justify-content-center">
               <div className="col-11">
+                <h3>{this.state.question}</h3>
+              </div>
+            </div>
+
+            <div className="row justify-content-center">
+              <div className="col-11">
                 <MapBuilder onMapChange={this.handleMapProps} />
               </div>
             </div>

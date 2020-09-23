@@ -8,6 +8,7 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 
 const MapPicker = ({ mapInfo }) => {
   const [map, setMap] = useState(null);
+  const [name, setName] = useState("");
   const mapContainer = useRef(null);
 
   const addResponsesToMap = async (map, excludeId) => {
@@ -16,7 +17,9 @@ const MapPicker = ({ mapInfo }) => {
 
     displayPoints.forEach((pt, i) => {
       setTimeout(() => {
-        const responseMarker = new mapboxgl.Marker().setLngLat([pt.location.lng, pt.location.lat]).setPopup(new mapboxgl.Popup().setHTML(pt.name));
+        const responseMarker = new mapboxgl.Marker()
+          .setLngLat([pt.location.lng, pt.location.lat])
+          .setPopup(new mapboxgl.Popup().setHTML(pt.name || "<em>Anonymous</em>"));
         const responseMarkerDiv = responseMarker.getElement();
 
         responseMarkerDiv.addEventListener("mouseenter", () => {
@@ -75,7 +78,16 @@ const MapPicker = ({ mapInfo }) => {
         <div className="row justify-content-center">
           <div className="col-6 mb-3 form-group">
             <label htmlFor="name">Your Name:</label>
-            <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" />
+            {/* <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" /> */}
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              id="name"
+              type="text"
+              className="form-control form-control-sm"
+              autoComplete="off"
+              placeholder="Anonymous"
+            />
           </div>
         </div>
         <div className="row justify-content-center">
