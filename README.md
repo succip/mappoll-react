@@ -2,8 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Things to add still
 
-1. Option to add name
-2. Zoom to extent of markers
+- zoom to extent of markers dropped
+- show map boundary
 
 ## Available Scripts
 
