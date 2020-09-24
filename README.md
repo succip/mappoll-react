@@ -4,6 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - zoom to extent of markers dropped
 - show map boundary
+- add browse function
 
 ## Available Scripts
 
