@@ -10,31 +10,32 @@ const MapPicker = ({ mapInfo }) => {
   const [map, setMap] = useState(null);
   const mapContainer = useRef(null);
 
-  const addResponsesToMap = async (map, excludeId) => {
-    const points = await getResponses(mapInfo.mapId);
-    const displayPoints = points.filter((point) => point.id !== excludeId);
-
-    displayPoints.forEach((pt, i) => {
-      setTimeout(() => {
-        const responseMarker = new mapboxgl.Marker()
-          .setLngLat([pt.location.lng, pt.location.lat])
-          .setPopup(new mapboxgl.Popup().setHTML(pt.name || "<em>Anonymous</em>"));
-        const responseMarkerDiv = responseMarker.getElement();
-
-        responseMarkerDiv.addEventListener("mouseenter", () => {
-          responseMarker.togglePopup();
-        });
-
-        responseMarkerDiv.addEventListener("mouseleave", () => {
-          responseMarker.togglePopup();
-        });
-
-        responseMarker.addTo(map);
-      }, i * 50);
-    });
-  };
 
   useEffect(() => {
+    const addResponsesToMap = async (map, excludeId) => {
+      const points = await getResponses(mapInfo.mapId);
+      const displayPoints = points.filter((point) => point.id !== excludeId);
+
+      displayPoints.forEach((pt, i) => {
+        setTimeout(() => {
+          const responseMarker = new mapboxgl.Marker()
+            .setLngLat([pt.location.lng, pt.location.lat])
+            .setPopup(new mapboxgl.Popup().setHTML(pt.name || "<em>Anonymous</em>"));
+          const responseMarkerDiv = responseMarker.getElement();
+
+          responseMarkerDiv.addEventListener("mouseenter", () => {
+            responseMarker.togglePopup();
+          });
+
+          responseMarkerDiv.addEventListener("mouseleave", () => {
+            responseMarker.togglePopup();
+          });
+
+          responseMarker.addTo(map);
+        }, i * 50);
+      });
+    };
+
     const initializeMap = ({ setMap, mapContainer }) => {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
@@ -80,7 +81,7 @@ const MapPicker = ({ mapInfo }) => {
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]);
+  }, [map, mapInfo]);
 
   return (
     <React.Fragment>
@@ -88,7 +89,6 @@ const MapPicker = ({ mapInfo }) => {
         <div className="row justify-content-center">
           <div className="col-6 mb-3 form-group">
             <label htmlFor="name">Your Name:</label>
-            {/* <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" /> */}
             <input id="name" type="text" className="form-control form-control-sm" autoComplete="off" placeholder="Anonymous" />
           </div>
         </div>
