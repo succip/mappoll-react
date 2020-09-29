@@ -7,6 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - add browse function
 - build contact component
 - refactor share page into component
+- fill out details on landing page
 
 ## Available Scripts
 

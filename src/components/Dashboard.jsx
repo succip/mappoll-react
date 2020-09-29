@@ -5,7 +5,7 @@ const Dashboard = () => {
     <React.Fragment>
       <h3>Welcome to MapPoll</h3>
       <p>
-        <a href="/create">Create a MapPoll </a> to get started.
+        <a href="/create">Create a MapPoll</a> to get started.
       </p>
     </React.Fragment>
   );
