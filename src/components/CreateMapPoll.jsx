@@ -30,13 +30,14 @@ class CreateMapPoll extends Component {
   render() {
     return (
       <React.Fragment>
-        <h3>Create a MapPoll</h3>
         <div className="container">
+          <p class="h3">Create a MapPoll</p>
+
           <form onSubmit={this.onSubmit}>
             <div className="row justify-content-center">
               <div className="col-9 form-group">
-                <label htmlFor="question">Poll Question</label>
-                <input type="text" className="form-control" id="question" autoComplete="off" onChange={this.onQuestionChange} />
+                <label htmlFor="question">Poll Title</label>
+                <input type="text" className="form-control text-center" id="question" autoComplete="off" placeholder="Type your poll question here" onChange={this.onQuestionChange} />
               </div>
             </div>
 
