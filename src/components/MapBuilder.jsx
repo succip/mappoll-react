@@ -6,6 +6,31 @@ mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpM
 const MapBuilder = ({ mapLocation, handleMapMove }) => {
   const mapContainerRef = useRef(null);
 
+  const buildPolygonFromExtent = ({ _ne, _sw }) => {
+    const ne = _ne;
+    const sw = _sw;
+    console.log(sw.lng);
+    const gjson = {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [sw.lng, ne.lat],
+              [ne.lng, ne.lat],
+              [ne.lng, sw.lat],
+              [sw.lng, sw.lat],
+            ],
+          ],
+        },
+      },
+    };
+
+    return gjson;
+  };
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -23,23 +48,19 @@ const MapBuilder = ({ mapLocation, handleMapMove }) => {
     });
 
     map.on("click", () => {
-      const llb = map.getBounds();
-      const extent = {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "Polygon",
-            coordinates: [
-              [-79.95420426538023, 43.1768215506551],
-              [-79.73344773461851, 43.31768215506551],
-              [-79.73344773461851, 43.19265967576604],
-              [-79.95420426538023, 43.19265967576604],
-            ],
-          },
+      const newPoly = buildPolygonFromExtent(map.getBounds());
+
+      map.addSource("extent", newPoly);
+      map.addLayer({
+        id: "extent",
+        type: "fill",
+        source: "extent",
+        layout: {},
+        paint: {
+          "fill-color": "#088",
+          "fill-opacity": 0.8,
         },
-      };
-      const extentJson = JSON.stringify(extent);
+      });
     });
 
     return () => map.remove();

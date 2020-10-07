@@ -1,78 +1,44 @@
-// test map Id
-// 5KVcmKsBa
-import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { getResponses, pushResponse } from "../firebase/firebase";
-mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
+map.addSource("maine", {
+  type: "geojson",
+  data: {
+    type: "Feature",
+    geometry: {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-67.13734351262877, 45.137451890638886],
+          [-66.96466, 44.8097],
+          [-68.03252, 44.3252],
+          [-69.06, 43.98],
+          [-70.11617, 43.68405],
+          [-70.64573401557249, 43.090083319667144],
+          [-70.75102474636725, 43.08003225358635],
+          [-70.79761105007827, 43.21973948828747],
+          [-70.98176001655037, 43.36789581966826],
+          [-70.94416541205806, 43.46633942318431],
+          [-71.08482, 45.3052400000002],
+          [-70.6600225491012, 45.46022288673396],
+          [-70.30495378282376, 45.914794623389355],
+          [-70.00014034695016, 46.69317088478567],
+          [-69.23708614772835, 47.44777598732787],
+          [-68.90478084987546, 47.184794623394396],
+          [-68.23430497910454, 47.35462921812177],
+          [-67.79035274928509, 47.066248887716995],
+          [-67.79141211614706, 45.702585354182816],
+          [-67.13734351262877, 45.137451890638886],
+        ],
+      ],
+    },
+  },
+});
 
-const MapPicker = ({ mapInfo }) => {
-  const [map, setMap] = useState(null);
-  const [mapPoints, setPoints] = useState([]);
-  const mapContainer = useRef(null);
-
-  const addResponsesToMap = async (map, excludeId) => {
-    const points = await getResponses(mapInfo.mapId);
-    const finalPoints = points.filter((point) => point.id !== excludeId);
-
-    finalPoints.forEach((pt, i) => {
-      setTimeout(() => {
-        new mapboxgl.Marker().setLngLat([pt.location.lng, pt.location.lat]).addTo(map);
-      }, i * 50);
-    });
-  };
-
-  useEffect(() => {
-    const initializeMap = ({ setMap, mapContainer }) => {
-      const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v11",
-        center: [mapInfo.mapProps.lng, mapInfo.mapProps.lat],
-        zoom: mapInfo.mapProps.zoom,
-      });
-
-      map.on("load", () => {
-        setMap(map);
-        map.resize();
-      });
-
-      const onClick = (e) => {
-        const popupContent = `<button id="confirmPoint" class="btn btn-primary btn-sm">Confirm</button>`;
-        const popup = new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(popupContent).addTo(map);
-        document.getElementById("confirmPoint").addEventListener("click", async () => {
-          new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map);
-          const excludeId = await pushResponse(mapInfo.mapId, e.lngLat);
-          addResponsesToMap(map, excludeId);
-          popup.remove();
-        });
-        map.off("click", onClick);
-      };
-
-      map.on("click", onClick);
-    };
-
-    if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]);
-
-  useEffect(() => {
-    // getResponses(mapInfo.mapId).then((points) => {
-    //   setPoints([1, 2, 3, 4]);
-    //   console.log("mappoints", mapPoints);
-    // });
-  }, []);
-
-  return (
-    <React.Fragment>
-      <label htmlFor="map">Click somewhere on the map to submit your response:</label>
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-10">
-            <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />
-          </div>
-        </div>
-      </div>
-    </React.Fragment>
-  );
-};
-
-export default MapPicker;
+map.addLayer({
+  id: "maine",
+  type: "fill",
+  source: "maine",
+  layout: {},
+  paint: {
+    "fill-color": "#088",
+    "fill-opacity": 0.8,
+  },
+});
