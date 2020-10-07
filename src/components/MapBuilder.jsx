@@ -1,62 +1,32 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import MapBoxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "mapbox-gl/dist/mapbox-gl.css";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
-class MapBuilder extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const MapBuilder = () => {
+  const mapContainerRef = useRef(null);
+  const [mapLocation, setMapLocation] = useState({
+    lng: -79.843826,
+    lat: 43.255203,
+    zoom: 11,
+  });
 
-  handleMapChange = () => {
-    this.props.onMapChange({
-      ...this.state,
-    });
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     const map = new mapboxgl.Map({
-      container: this.mapContainer,
+      container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-123.117932, 49.257362],
-      zoom: 9,
+      center: [mapLocation.lng, mapLocation.lat],
+      zoom: mapLocation.zoom,
     });
 
-    map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
-    map.addControl(
-      new MapBoxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl,
-      })
-    );
+    return () => map.remove();
+  }, []);
 
-    map.on("move", () => {
-      this.props.onMapChange({
-        lng: map.getCenter().lng.toFixed(4),
-        lat: map.getCenter().lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2),
-      });
-    });
-
-    map.on("render", () => {
-      this.props.onMapChange({
-        lng: map.getCenter().lng.toFixed(4),
-        lat: map.getCenter().lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2),
-      });
-    });
-  }
-
-  render() {
-    return (
-      <React.Fragment>
-        <label htmlFor="map">Set Map Extent</label>
-        <div className="mapContainer" id="map" ref={(el) => (this.mapContainer = el)} />
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <div className="mapContainer" ref={mapContainerRef} />
+    </React.Fragment>
+  );
+};
 
 export default MapBuilder;

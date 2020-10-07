@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Contact from "../components/Contact";
 import Dashboard from "../components/Dashboard";
-import CreateMapPoll from "../components/CreateMapPollsfc";
+import CreateMapPoll from "../components/CreateMapPoll";
 import MapPoll from "../components/MapPoll";
 import ShareMapPoll from "../components/ShareMapPoll";
 
