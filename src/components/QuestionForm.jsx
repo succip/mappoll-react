@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
-const QuestionForm = () => {
-  const [question, setQuestion] = useState("");
+const QuestionForm = ({ handleQuestionChange }) => {
   return (
     <React.Fragment>
-      <input type="text" value={question} onChange={(e) => setQuestion(e.target.value)} />
+      <input type="text" onChange={(e) => handleQuestionChange(e.target.value)} />
     </React.Fragment>
   );
 };

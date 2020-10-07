@@ -1,15 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
-const MapBuilder = () => {
+const MapBuilder = ({ mapLocation, handleMapMove }) => {
   const mapContainerRef = useRef(null);
-  const [mapLocation, setMapLocation] = useState({
-    lng: -79.843826,
-    lat: 43.255203,
-    zoom: 11,
-  });
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -17,6 +12,14 @@ const MapBuilder = () => {
       style: "mapbox://styles/mapbox/streets-v11",
       center: [mapLocation.lng, mapLocation.lat],
       zoom: mapLocation.zoom,
+    });
+
+    map.on("moveend", () => {
+      handleMapMove({
+        lng: parseFloat(map.getCenter().lng.toFixed(4)),
+        lat: parseFloat(map.getCenter().lat.toFixed(4)),
+        zoom: parseFloat(map.getZoom().toFixed(2)),
+      });
     });
 
     return () => map.remove();
