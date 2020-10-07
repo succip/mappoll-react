@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import mapboxgl from "mapbox-gl";
 import QuestionForm from "../components/QuestionForm";
 import MapBuilder from "./MapBuilder";
-import "mapbox-gl/dist/mapbox-gl.css";
-mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
 const CreateMapPoll = () => {
   const [question, setQuestion] = useState("");
   const [mapLocation, setMapLocation] = useState({
     lng: -79.843826,
     lat: 43.255203,
-    zoom: 11,
+    zoom: 10,
   });
 
   return (

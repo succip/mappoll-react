@@ -22,6 +22,26 @@ const MapBuilder = ({ mapLocation, handleMapMove }) => {
       });
     });
 
+    map.on("click", () => {
+      const llb = map.getBounds();
+      const extent = {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [-79.95420426538023, 43.1768215506551],
+              [-79.73344773461851, 43.31768215506551],
+              [-79.73344773461851, 43.19265967576604],
+              [-79.95420426538023, 43.19265967576604],
+            ],
+          },
+        },
+      };
+      const extentJson = JSON.stringify(extent);
+    });
+
     return () => map.remove();
   }, []);
 
