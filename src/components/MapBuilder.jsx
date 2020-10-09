@@ -24,8 +24,6 @@ const MapBuilder = ({ mapLocation, handleMapMove }) => {
       });
     });
 
-    map.on("click", () => {});
-
     document.getElementById("lock").addEventListener("click", () => {
       if (map.getLayer("extent")) {
         map.removeLayer("extent");
@@ -45,10 +43,6 @@ const MapBuilder = ({ mapLocation, handleMapMove }) => {
 
     return () => map.remove();
   }, []);
-
-  const lockMap = (map) => {
-    console.log(map.options.container);
-  };
 
   return (
     <React.Fragment>
