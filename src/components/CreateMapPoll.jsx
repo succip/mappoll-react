@@ -9,6 +9,7 @@ const CreateMapPoll = () => {
     lat: 43.255203,
     zoom: 10,
   });
+  const [extentLocked, setExtentLocked] = useState(false);
 
   return (
     <React.Fragment>
@@ -16,7 +17,7 @@ const CreateMapPoll = () => {
       <QuestionForm handleQuestionChange={setQuestion} />
       <div className="col-lg-7 col-md-9 col-sm-11 mx-auto">
         <h3>{question}</h3>
-        <MapBuilder mapLocation={mapLocation} handleMapMove={setMapLocation} />
+        <MapBuilder mapLocation={mapLocation} handleExtentLocked={setExtentLocked} handleMapMove={setMapLocation} />
         <button className="btn btn-primary m-2">Create Poll</button>
       </div>
     </React.Fragment>

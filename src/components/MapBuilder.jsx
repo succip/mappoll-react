@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { buildPolygonFromBounds } from "../helpers/geometry";
+import { BsUnlock } from "react-icons/bs";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
 
 const MapBuilder = ({ mapLocation, handleMapMove }) => {
@@ -23,7 +24,9 @@ const MapBuilder = ({ mapLocation, handleMapMove }) => {
       });
     });
 
-    map.on("click", () => {
+    map.on("click", () => {});
+
+    document.getElementById("lock").addEventListener("click", () => {
       if (map.getLayer("extent")) {
         map.removeLayer("extent");
         map.removeSource("extent");
@@ -43,9 +46,17 @@ const MapBuilder = ({ mapLocation, handleMapMove }) => {
     return () => map.remove();
   }, []);
 
+  const lockMap = (map) => {
+    console.log(map.options.container);
+  };
+
   return (
     <React.Fragment>
       <div className="mapContainer" ref={mapContainerRef} />
+      <button id="lock" className="btn btn-light float-left m-2">
+        <BsUnlock />
+        &nbsp; Lock Extent
+      </button>
     </React.Fragment>
   );
 };
