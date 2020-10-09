@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import QuestionForm from "../components/QuestionForm";
+import LockExtentButton from "../components/LockExtentButton";
 import MapBuilder from "./MapBuilder";
 
 const CreateMapPoll = () => {
@@ -17,8 +18,11 @@ const CreateMapPoll = () => {
       <QuestionForm handleQuestionChange={setQuestion} />
       <div className="col-lg-7 col-md-9 col-sm-11 mx-auto">
         <h3>{question}</h3>
-        <MapBuilder mapLocation={mapLocation} handleExtentLocked={setExtentLocked} handleMapMove={setMapLocation} />
-        <button className="btn btn-primary m-2">Create Poll</button>
+        <MapBuilder mapLocation={mapLocation} handleMapMove={setMapLocation} extentLocked={extentLocked} />
+        <div className="d-flex mt-2 justify-content-between">
+          <LockExtentButton extentLocked={extentLocked} handleExtentLocked={setExtentLocked} />
+          <button className="btn btn-primary float-right">Create Poll</button>
+        </div>
       </div>
     </React.Fragment>
   );
