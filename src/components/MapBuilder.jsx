@@ -24,6 +24,7 @@ const MapBuilder = ({ mapLocation, handleMapMove, extentLocked }) => {
     });
 
     document.getElementById("lock").addEventListener("click", () => {
+      console.log("extentLocked", extentLocked);
       if (extentLocked) {
         map.removeLayer("extent");
         map.removeSource("extent");
