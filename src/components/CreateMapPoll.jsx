@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { pushMapPoll } from "../firebase/firebase";
 import QuestionForm from "../components/QuestionForm";
 import LockExtentButton from "../components/LockExtentButton";
 import MapBuilder from "./MapBuilder";
 
-const CreateMapPoll = () => {
+const CreateMapPoll = (props) => {
   const [question, setQuestion] = useState("");
   const [mapLocation, setMapLocation] = useState({
     lng: -79.843826,
@@ -11,6 +12,15 @@ const CreateMapPoll = () => {
     zoom: 10,
   });
   const [extentLocked, setExtentLocked] = useState(false);
+
+  const submitMapPoll = async () => {
+    const newPollId = await pushMapPoll({
+      question,
+      mapLocation,
+      extentLocked,
+    });
+    props.history.push(`/mp/${newPollId}`);
+  };
 
   return (
     <React.Fragment>
@@ -21,7 +31,9 @@ const CreateMapPoll = () => {
         <MapBuilder mapLocation={mapLocation} handleMapMove={setMapLocation} extentLocked={extentLocked} />
         <div className="d-flex mt-2 justify-content-between">
           <LockExtentButton extentLocked={extentLocked} handleExtentLocked={setExtentLocked} />
-          <button className="btn btn-primary float-right">Create Poll</button>
+          <button onClick={submitMapPoll} className="btn btn-primary float-right">
+            Create Poll
+          </button>
         </div>
       </div>
     </React.Fragment>

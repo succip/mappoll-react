@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getMapPollById } from "../firebase/firebase";
 import MapPicker from "../components/MapPicker";
+import ShareMapPoll from "../components/ShareMapPoll";
 
 class MapPoll extends Component {
   state = {
@@ -35,6 +36,7 @@ class MapPoll extends Component {
         <h3>{this.state.question}</h3>
         {/* <input value={title} onChange={(e) => setTitle(e.target.value)} />f */}
         <MapPicker mapInfo={this.state} />
+        <ShareMapPoll />
       </>
     );
   }

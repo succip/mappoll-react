@@ -17,7 +17,7 @@ const AppRouter = () => {
           <Route path="/" component={Dashboard} exact={true} />
           <Route path="/create" component={CreateMapPoll} />
           <Route path="/contact" component={Contact} />
-          <Route path="/mappoll/:mapPollId" component={MapPoll} />
+          <Route path="/mp/:mapPollId" component={MapPoll} />
           <Route path="/share/:mapPollId" component={ShareMapPoll} />
         </Switch>
         <Footer />
