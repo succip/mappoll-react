@@ -4,7 +4,6 @@ import { BiCopy } from "react-icons/bi";
 const ShareMapPoll = () => {
   const copyShareLinkToClipboard = () => {
     const shareLink = window.location.href;
-    // const urlDomain = url.replace("http://", "").replace("https://", "").split(/[/?#]/)[0];
     const dummyElement = document.createElement("textarea");
     document.body.appendChild(dummyElement);
     dummyElement.value = shareLink;
