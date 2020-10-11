@@ -3,12 +3,13 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { buildPolygonFromBounds } from "../helpers/geometry";
 mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
+let map;
 
 const MapBuilder = ({ mapLocation, handleMapMove, extentLocked }) => {
   const mapContainerRef = useRef(null);
 
   useEffect(() => {
-    const map = new mapboxgl.Map({
+    map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [mapLocation.lng, mapLocation.lat],
@@ -22,15 +23,17 @@ const MapBuilder = ({ mapLocation, handleMapMove, extentLocked }) => {
         zoom: parseFloat(map.getZoom().toFixed(2)),
       });
     });
+    return () => map.remove();
+  }, []);
 
-    document.getElementById("lock").addEventListener("click", () => {
-      console.log("extentLocked", extentLocked);
-      if (extentLocked) {
-        map.removeLayer("extent");
-        map.removeSource("extent");
-        return;
-      }
+  useEffect(() => {
+    if (map.getLayer("extent")) {
+      map.removeLayer("extent");
+      map.removeSource("extent");
+      return;
+    }
 
+    if (map.loaded()) {
       map.addLayer({
         id: "extent",
         type: "line",
@@ -40,10 +43,8 @@ const MapBuilder = ({ mapLocation, handleMapMove, extentLocked }) => {
           "line-color": "#C00",
         },
       });
-    });
-
-    return () => map.remove();
-  }, []);
+    }
+  }, [extentLocked]);
 
   return (
     <React.Fragment>
