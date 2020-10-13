@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createYouMarker } from "../services/MapBox/mapping";
-import { getResponses } from "../firebase/firebase";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 let map;
 
@@ -29,7 +28,7 @@ const MapPicker = ({ mapLocation, mapId }) => {
 
   return (
     <>
-      <div className="mapContainer mapPicker" ref={mapContainerRef}></div>
+      <div className="mapContainer" ref={mapContainerRef}></div>
     </>
   );
 };

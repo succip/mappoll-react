@@ -26,7 +26,7 @@ const CreateMapPoll = (props) => {
     <React.Fragment>
       <h3>Create a MapPoll</h3>
       <QuestionForm handleQuestionChange={setQuestion} />
-      <div className="col-lg-7 col-md-9 col-sm-11 mx-auto">
+      <div className="col-lg-8 col-md-9 col-sm-11 mx-auto">
         <h3>{question}</h3>
         <MapBuilder mapLocation={mapLocation} handleMapMove={setMapLocation} extentLocked={extentLocked} />
         <div className="d-flex mt-2 justify-content-between">
