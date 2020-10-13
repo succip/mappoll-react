@@ -6,7 +6,7 @@ const LockExtentButton = ({ handleExtentLocked, extentLocked }) => {
     <React.Fragment>
       <button onClick={() => handleExtentLocked(!extentLocked)} id="lock" className="btn btn-light float-left">
         {extentLocked ? <BsLock /> : <BsUnlock />}
-        {extentLocked ? " Locked Boundary" : " Unlocked Boundary"}
+        {extentLocked ? " Unlock Boundary" : " Lock Boundary"}
       </button>
     </React.Fragment>
   );

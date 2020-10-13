@@ -31,18 +31,15 @@ const pushMapPoll = (mapPoll) => {
   database
     .ref(`mapPolls/${newId}`)
     .set(mapPoll)
-    .then(() => {
-      console.log("Poll pushed successfully");
-    })
     .catch((e) => {
       console.log("Error: ", e);
     });
   return newId;
 };
 
-const pushResponse = (mapPollId, { lng, lat }, name) => {
+const pushResponse = (mapId, { lng, lat }, name="Anonymous") => {
   return database
-    .ref(`mapPolls/${mapPollId}/coords`)
+    .ref(`mapPolls/${mapId}/coords`)
     .push({ lng, lat, name })
     .then((id) => {
       return id.key;

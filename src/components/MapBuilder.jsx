@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { buildPolygonFromBounds } from "../helpers/geometry";
-mapboxgl.accessToken = "pk.eyJ1Ijoic3VjY2lwIiwiYSI6ImNrNWI4Z3RvdjE4YTAza21tbGtpMjJtamgifQ.tSYDt7w3D8EOe6nCIkycOQ";
+import { buildPolygonFromBounds } from "../utils/geometry";
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 let map;
 
 const MapBuilder = ({ mapLocation, handleMapMove, extentLocked }) => {

@@ -13,14 +13,16 @@ const ShareMapPoll = () => {
   };
 
   return (
-    <div className="mt-3">
-      <p>Share this MapPoll with your friends:</p>
-      <p>
-        <a href={window.location.href}>{window.location.href}</a>
-        <button className="ml-3 btn btn-outline-primary btn-sm" onClick={copyShareLinkToClipboard}>
-          <BiCopy /> Copy
-        </button>
-      </p>
+    <div className="d-inline-flex mt-3 p-2 border rounded border-secondary">
+      <div className="d-block">
+        <p>Share this MapPoll with your friends:</p>
+        <p>
+          <a href={window.location.href}>{window.location.href}</a>
+          <button className="ml-2 btn btn-outline-primary btn-sm" onClick={copyShareLinkToClipboard}>
+            <BiCopy /> Copy
+          </button>
+        </p>
+      </div>
     </div>
   );
 };

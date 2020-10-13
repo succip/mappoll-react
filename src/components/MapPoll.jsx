@@ -1,45 +1,34 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { getMapPollById } from "../firebase/firebase";
-import MapPicker from "../components/MapPicker";
+import MapPicker from "./MapPicker";
 import ShareMapPoll from "../components/ShareMapPoll";
 
-class MapPoll extends Component {
-  state = {
-    mapId: "",
-    question: "",
-    mapProps: {
-      lng: 0,
-      lat: 0,
-      zoom: 0,
-    },
-    isLoading: true,
-  };
+const MapPoll = () => {
+  const [mapPoll, setMapPoll] = useState({});
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const mapId = useParams().mapPollId;
 
-  componentDidMount() {
-    const mapId = this.props.match.params.mapPollId;
+  useEffect(() => {
     getMapPollById(mapId).then((mapPoll) => {
-      this.setState({
-        mapId,
-        ...mapPoll,
-        isLoading: false,
-      });
+      setMapPoll(mapPoll);
+      setMapLoaded(true);
     });
-  }
+  }, [mapId]);
 
-  render() {
-    if (this.state.isLoading) {
-      return <div>Loading your poll...</div>;
-    }
-
+  if (mapLoaded) {
     return (
       <>
-        <h3>{this.state.question}</h3>
-        {/* <input value={title} onChange={(e) => setTitle(e.target.value)} />f */}
-        <MapPicker mapInfo={this.state} />
+        <h3>{mapPoll.question}</h3>
+        <div className="col-lg-8 col-md-9 col-sm-11 mx-auto">
+          <MapPicker mapLocation={mapPoll.mapLocation} mapId={mapId} />
+        </div>
         <ShareMapPoll />
       </>
     );
+  } else {
+    return <div>Loading your poll...</div>;
   }
-}
+};
 
 export default MapPoll;
