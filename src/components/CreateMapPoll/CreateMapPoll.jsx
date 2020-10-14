@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { pushMapPoll } from "../firebase/firebase";
-import QuestionForm from "../components/QuestionForm";
-import LockExtentButton from "../components/LockExtentButton";
-import MapBuilder from "./MapBuilder";
+import { pushMapPoll } from "../../firebase/firebase";
+import QuestionForm from "../QuestionForm/QuestionForm";
+import LockExtentButton from "../LockExtentButton/LockExtentButton";
+import MapBuilder from "../MapBuilder/MapBuilder";
 
 const CreateMapPoll = (props) => {
   const [question, setQuestion] = useState("");

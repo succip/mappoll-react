@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { buildPolygonFromBounds } from "../utils/geometry";
+import { buildPolygonFromBounds } from "../../utils/geometry";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 let map;
 
