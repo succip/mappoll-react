@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { createYouMarker } from "../../services/MapBox/mapping";
+import { youMarker } from "../../services/MapBox/mapping";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 let map;
 
@@ -16,7 +16,8 @@ const MapPicker = ({ mapLocation, mapId }) => {
     });
 
     map.on("click", ({ lngLat }) => {
-      createYouMarker(lngLat, mapId).then((marker) => marker.addTo(map));
+      const ym = new youMarker(lngLat, mapId);
+      ym.addTo(map);
     });
 
     map.on("mouseover", () => {
