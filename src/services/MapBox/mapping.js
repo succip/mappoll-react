@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 
-// User generated marker that submits poll response
+// User generated marker representing poll response
 export class youMarker extends mapboxgl.Marker {
   constructor(lngLat, mapId) {
     super({
@@ -9,8 +9,5 @@ export class youMarker extends mapboxgl.Marker {
     });
     this.setLngLat(lngLat);
     this.mapId = mapId;
-    this.on("dragend", () => {
-      console.log("drag ended");
-    });
   }
 }

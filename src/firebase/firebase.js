@@ -3,14 +3,14 @@ require("firebase/database");
 const shortid = require("shortid");
 
 const config = {
-  apiKey: "AIzaSyBHWQI9OHyQGAAvCnLQ-RwUT20cbf7kH8U",
-  authDomain: "mappoll-test-e6f18.firebaseapp.com",
-  databaseURL: "https://mappoll-test-e6f18.firebaseio.com",
-  projectId: "mappoll-test-e6f18",
-  storageBucket: "mappoll-test-e6f18.appspot.com",
-  messagingSenderId: "569468479075",
-  appId: "1:569468479075:web:241ee83f16ddb6e499ba56",
-  measurementId: "G-T4YWP90W01",
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID,
 };
 
 firebase.initializeApp(config);
@@ -37,16 +37,12 @@ const pushMapPoll = (mapPoll) => {
   return newId;
 };
 
-const pushResponse = (mapId, { lng, lat }, name="Anonymous") => {
+const pushResponse = (mapId, { lng, lat }, name = "Anonymous") => {
   return database
     .ref(`mapPolls/${mapId}/coords`)
     .push({ lng, lat, name })
-    .then((id) => {
-      return id.key;
-    })
-    .catch((e) => {
-      console.log("Error: ", e);
-    });
+    .then((id) => id.key)
+    .catch((e) => console.log("Error: ", e));
 };
 
 const getResponses = (mapPollId) => {
