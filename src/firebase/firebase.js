@@ -39,7 +39,6 @@ const pushMapPoll = (mapPoll) => {
 
 const pushResponse = (mapId, { lng, lat }, key = null, name = "Anonymous") => {
   if (key) {
-    console.log("there was a key found!");
     return database.ref(`mapPolls/${mapId}/coords/${key}`).set({ lng, lat, name });
   }
 
