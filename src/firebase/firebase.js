@@ -37,7 +37,12 @@ const pushMapPoll = (mapPoll) => {
   return newId;
 };
 
-const pushResponse = (mapId, { lng, lat }, name = "Anonymous") => {
+const pushResponse = (mapId, { lng, lat }, key = null, name = "Anonymous") => {
+  if (key) {
+    console.log("there was a key found!");
+    return database.ref(`mapPolls/${mapId}/coords/${key}`).set({ lng, lat, name });
+  }
+
   return database
     .ref(`mapPolls/${mapId}/coords`)
     .push({ lng, lat, name })
