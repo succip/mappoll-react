@@ -37,16 +37,16 @@ const pushMapPoll = (mapPoll) => {
   return newId;
 };
 
-const pushResponse = (mapId, { lng, lat }, key = null, name = "Anonymous") => {
-  if (key) {
-    return database.ref(`mapPolls/${mapId}/coords/${key}`).set({ lng, lat, name });
-  }
-
+const pushResponse = (mapId, { lng, lat }, name = "Anonymous") => {
   return database
     .ref(`mapPolls/${mapId}/coords`)
     .push({ lng, lat, name })
     .then((id) => id.key)
     .catch((e) => console.log("Error: ", e));
+};
+
+const updateResponse = (mapId, { lng, lat }, key) => {
+  return database.ref(`mapPolls/${mapId}/coords/${key}`).update({ lng, lat });
 };
 
 const getResponses = (mapPollId) => {
@@ -71,4 +71,4 @@ const getResponses = (mapPollId) => {
       return points;
     });
 };
-export { firebase, pushMapPoll, getMapPollById, pushResponse, getResponses, database as default };
+export { firebase, pushMapPoll, getMapPollById, pushResponse, getResponses, updateResponse, database as default };

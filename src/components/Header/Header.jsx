@@ -22,10 +22,10 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <a className="nav-item nav-link active" href="/create">
+              <a className="nav-item nav-link" href="/create">
                 Create<span className="sr-only">(current)</span>
               </a>
-              <a className="nav-item nav-link" href="/create">
+              <a className="nav-item nav-link" href="/browse">
                 Browse
               </a>
               <a className="nav-item nav-link" href="/contact">
