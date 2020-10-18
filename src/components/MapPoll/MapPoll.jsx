@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { getMapPollById } from "../../firebase/firebase";
+import { getMapPollById } from "../../firebase/mapPolls/mapPolls";
 import MapPicker from "../MapPicker/MapPicker";
 import ShareMapPoll from "../ShareMapPoll/ShareMapPoll";
 

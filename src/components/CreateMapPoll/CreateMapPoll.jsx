@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { pushMapPoll } from "../../firebase/firebase";
+import { pushMapPoll } from "../../firebase/mapPolls/mapPolls";
 import QuestionForm from "../QuestionForm/QuestionForm";
 import LockExtentButton from "../LockExtentButton/LockExtentButton";
 import MapBuilder from "../MapBuilder/MapBuilder";

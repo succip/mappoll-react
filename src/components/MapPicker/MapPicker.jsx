@@ -16,13 +16,11 @@ const MapPicker = ({ mapLocation, mapId }) => {
     });
 
     map.on("click", ({ lngLat }) => {
-      const ym = new youMarker(lngLat, mapId);
+      const ym = new youMarker(mapId, lngLat);
       ym.addTo(map);
     });
 
-    map.on("mouseover", () => {
-      map.getCanvas().style.cursor = "pointer";
-    });
+    map.on("mouseover", () => (map.getCanvas().style.cursor = "pointer"));
 
     return () => map.remove();
   }, []);
