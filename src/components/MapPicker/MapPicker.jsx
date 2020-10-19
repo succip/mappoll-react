@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapPollPicker } from "../../services/MapBox/mapping";
+import SeeResultsButton from "../SeeResultsButton/SeeResultsButton";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 let map;
 
@@ -14,7 +15,9 @@ const MapPicker = ({ mapLocation, mapId }) => {
 
   return (
     <>
-      <div className="mapContainer" ref={mapContainerRef}></div>
+      <div className="mapContainer" ref={mapContainerRef}>
+        <SeeResultsButton />
+      </div>
     </>
   );
 };

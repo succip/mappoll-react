@@ -1,3 +1,4 @@
+import { map } from "jquery";
 import mapboxgl from "mapbox-gl";
 import { pushResponse, updateResponse } from "../../firebase/responses/responses";
 import { buildPolygonFromBounds } from "../../utils/geometry";
@@ -75,11 +76,14 @@ export class MapPollPicker extends mapboxgl.Map {
       zoom: mapLocation.zoom,
     });
 
-    this.on("click", ({ lngLat }) => {
+    const dropMarker = ({ lngLat }) => {
       const ym = new YouMarker(mapId, lngLat);
       ym.addTo(this);
-    });
+      this.getCanvas().style.cursor = "text";
+      this.off("click", dropMarker);
+    };
 
+    this.on("click", dropMarker);
     this.on("mouseover", () => (this.getCanvas().style.cursor = "pointer"));
   }
 }

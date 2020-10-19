@@ -12,7 +12,7 @@ export const updateResponse = (mapId, { lng, lat }, key) => {
   return database.ref(`mapPolls/${mapId}/coords/${key}`).update({ lng, lat });
 };
 
-const getResponses = (mapPollId) => {
+export const getResponses = (mapPollId) => {
   return database
     .ref(`mapPolls/${mapPollId}/coords`)
     .once("value")
