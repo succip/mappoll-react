@@ -68,7 +68,7 @@ export class MapPollBuilder extends mapboxgl.Map {
 
 // Map object for submitting responses in MapPicker
 export class MapPollPicker extends mapboxgl.Map {
-  constructor(container, mapId, mapLocation) {
+  constructor(container, mapId, mapLocation, setResultsReady) {
     super({
       container,
       style: "mapbox://styles/mapbox/streets-v11",
@@ -79,7 +79,7 @@ export class MapPollPicker extends mapboxgl.Map {
     const dropMarker = ({ lngLat }) => {
       const ym = new YouMarker(mapId, lngLat);
       ym.addTo(this);
-      this.getCanvas().style.cursor = "text";
+      setResultsReady(true);
       this.off("click", dropMarker);
     };
 

@@ -1,23 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapPollPicker } from "../../services/MapBox/mapping";
-import SeeResultsButton from "../SeeResultsButton/SeeResultsButton";
+import SeeResultsButton from "../../components/SeeResultsButton/SeeResultsButton";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
-let map;
+let map = {};
 
 const MapPicker = ({ mapLocation, mapId }) => {
   const mapContainerRef = useRef(null);
+  const [resultsReady, setResultsReady] = useState(false);
+
   useEffect(() => {
-    map = new MapPollPicker(mapContainerRef.current, mapId, mapLocation);
+    map = new MapPollPicker(mapContainerRef.current, mapId, mapLocation, setResultsReady);
     return () => map.remove();
   }, []);
 
   return (
     <>
-      <div className="mapContainer" ref={mapContainerRef}>
-        <SeeResultsButton />
-      </div>
+      <div className="mapContainer" ref={mapContainerRef}></div>
+      {resultsReady ? <SeeResultsButton /> : <div></div>}
     </>
   );
 };

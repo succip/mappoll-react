@@ -40,3 +40,10 @@
 .mapContainer {
   height: 450px;
 }
+
+.resultsButton {
+  position: absolute;
+  bottom: 40px;
+  left: 20px;
+  z-index: 10;
+}
