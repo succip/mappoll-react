@@ -1,4 +1,3 @@
-import { map } from "jquery";
 import mapboxgl from "mapbox-gl";
 import { getResponses, pushResponse, updateResponse } from "../../firebase/responses/responses";
 import { buildPolygonFromBounds } from "../../utils/geometry";
@@ -14,8 +13,7 @@ export class YouMarker extends mapboxgl.Marker {
     this.setLngLat(lngLat);
     this.setPopup(new mapboxgl.Popup().setHTML("<i>Your Response</i>"));
     this.mapId = mapId;
-    pushResponse(mapId, lngLat).then((key) => (this.key = key));
-
+    pushResponse(mapId, lngLat);
     const youMarkerDiv = this.getElement();
     youMarkerDiv.addEventListener("mouseenter", () => this.togglePopup());
     youMarkerDiv.addEventListener("mouseleave", () => this.togglePopup());
