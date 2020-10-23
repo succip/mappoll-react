@@ -1,6 +1,6 @@
 import { map } from "jquery";
 import mapboxgl from "mapbox-gl";
-import { pushResponse, updateResponse } from "../../firebase/responses/responses";
+import { getResponses, pushResponse, updateResponse } from "../../firebase/responses/responses";
 import { buildPolygonFromBounds } from "../../utils/geometry";
 
 // User generated marker representing poll response
@@ -14,7 +14,7 @@ export class YouMarker extends mapboxgl.Marker {
     this.setLngLat(lngLat);
     this.setPopup(new mapboxgl.Popup().setHTML("<i>Your Response</i>"));
     this.mapId = mapId;
-    this.key = pushResponse(mapId, lngLat).then((key) => (this.key = key));
+    pushResponse(mapId, lngLat).then((key) => (this.key = key));
 
     const youMarkerDiv = this.getElement();
     youMarkerDiv.addEventListener("mouseenter", () => this.togglePopup());
@@ -81,6 +81,10 @@ export class MapPollPicker extends mapboxgl.Map {
       ym.addTo(this);
       setResultsReady(true);
       this.off("click", dropMarker);
+    };
+
+    this.addResponses = async (mapId) => {
+      const points = await getResponses(mapId);
     };
 
     this.on("click", dropMarker);

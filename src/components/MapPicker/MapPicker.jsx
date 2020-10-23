@@ -15,10 +15,14 @@ const MapPicker = ({ mapLocation, mapId }) => {
     return () => map.remove();
   }, []);
 
+  const showResults = () => {
+    map.addResponses(mapId);
+  };
+
   return (
     <>
       <div className="mapContainer" ref={mapContainerRef}></div>
-      {resultsReady ? <SeeResultsButton /> : <div></div>}
+      {resultsReady ? <SeeResultsButton handleResults={showResults} /> : <div></div>}
     </>
   );
 };

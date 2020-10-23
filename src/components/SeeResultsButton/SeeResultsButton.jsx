@@ -1,9 +1,11 @@
 import React from "react";
 
-const SeeResultsButton = () => {
+const SeeResultsButton = ({ handleResults }) => {
   return (
     <>
-      <button className="btn btn-primary float-right resultsButton">See Results</button>
+      <button onClick={() => handleResults()} className="btn btn-primary float-right resultsButton">
+        See Results
+      </button>
     </>
   );
 };
