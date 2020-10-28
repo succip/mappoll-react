@@ -1,4 +1,4 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLat } from "mapbox-gl";
 import { getResponses, pushResponse, updateResponse } from "../../firebase/responses/responses";
 import { buildPolygonFromBounds } from "../../utils/geometry";
 
@@ -13,7 +13,6 @@ export class YouMarker extends mapboxgl.Marker {
     this.setLngLat(lngLat);
     this.setPopup(new mapboxgl.Popup().setHTML("<i>Your Response</i>"));
     this.mapId = mapId;
-    pushResponse(mapId, lngLat);
     const youMarkerDiv = this.getElement();
     youMarkerDiv.addEventListener("mouseenter", () => this.togglePopup());
     youMarkerDiv.addEventListener("mouseleave", () => this.togglePopup());
@@ -74,15 +73,24 @@ export class MapPollPicker extends mapboxgl.Map {
       zoom: mapLocation.zoom,
     });
 
-    const dropMarker = ({ lngLat }) => {
+    const dropMarker = async ({ lngLat }) => {
       const ym = new YouMarker(mapId, lngLat);
       ym.addTo(this);
+      this.excludeKey = await pushResponse(mapId, lngLat);
       setResultsReady(true);
       this.off("click", dropMarker);
     };
 
     this.addResponses = async (mapId) => {
       const points = await getResponses(mapId);
+      const displayPoints = points.filter((point) => point.id !== this.excludeKey);
+
+      displayPoints.forEach((pt, i) => {
+        setTimeout(() => {
+          const responseMarker = new mapboxgl.Marker().setLngLat([pt.location.lng, pt.location.lat]);
+          responseMarker.addTo(this);
+        });
+      });
     };
 
     this.on("click", dropMarker);
