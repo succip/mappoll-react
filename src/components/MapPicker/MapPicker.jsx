@@ -3,12 +3,14 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapPollPicker } from "../../services/MapBox/mapping";
 import SeeResultsButton from "../../components/SeeResultsButton/SeeResultsButton";
+// import NameInput from "../../components/NameInput/NameInput";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 let map = {};
 
 const MapPicker = ({ mapLocation, mapId }) => {
   const mapContainerRef = useRef(null);
   const [resultsReady, setResultsReady] = useState(false);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     map = new MapPollPicker(mapContainerRef.current, mapId, mapLocation, setResultsReady);
@@ -17,10 +19,12 @@ const MapPicker = ({ mapLocation, mapId }) => {
 
   const showResults = () => {
     map.addResponses(mapId);
+    setResultsReady(false);
   };
 
   return (
     <>
+      {/* <NameInput handleNameChange={setName} /> */}
       <div className="mapContainer" ref={mapContainerRef}></div>
       {resultsReady ? <SeeResultsButton handleResults={showResults} /> : <div></div>}
     </>

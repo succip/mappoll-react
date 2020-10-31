@@ -19,6 +19,7 @@ const MapBuilder = ({ mapLocation, handleMapMove, extentLocked }) => {
 
   return (
     <React.Fragment>
+      <p className="mb-0">Set your map boundary:</p>
       <div className="mapContainer" ref={mapContainerRef} />
     </React.Fragment>
   );
