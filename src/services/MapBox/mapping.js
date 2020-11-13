@@ -4,14 +4,14 @@ import { buildPolygonFromBounds } from "../../utils/geometry";
 
 // User generated marker representing poll response
 export class YouMarker extends mapboxgl.Marker {
-  constructor(mapId, lngLat) {
+  constructor(mapId, lngLat, name) {
     super({
       color: "#C00",
       draggable: true,
     });
 
     this.setLngLat(lngLat);
-    this.setPopup(new mapboxgl.Popup().setHTML("<i>Your Response</i>"));
+    this.setPopup(new mapboxgl.Popup().setHTML(name ? name : "<i>Your Response (Anonymous)</i>"));
     this.mapId = mapId;
     const youMarkerDiv = this.getElement();
     youMarkerDiv.addEventListener("mouseenter", () => this.togglePopup());
@@ -25,10 +25,10 @@ export class YouMarker extends mapboxgl.Marker {
 
 // Marker representing other responses
 export class ResponseMarker extends mapboxgl.Marker {
-  constructor(lngLat) {
+  constructor(lngLat, name) {
     super();
     this.setLngLat(lngLat);
-    this.setPopup(new mapboxgl.Popup().setHTML("Someone else"));
+    this.setPopup(new mapboxgl.Popup().setHTML(name ? name : "<i>(Anonymous)</i>"));
 
     const responseMarkerDiv = this.getElement();
     responseMarkerDiv.addEventListener("mouseenter", () => this.togglePopup());
@@ -38,33 +38,40 @@ export class ResponseMarker extends mapboxgl.Marker {
 
 // Map object for submitting responses in MapPicker
 export class MapPollPicker extends mapboxgl.Map {
-  constructor(container, mapId, mapLocation, setResultsReady) {
+  constructor(container, mapId, setResultsReady) {
     super({
       container,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [mapLocation.lng, mapLocation.lat],
-      zoom: mapLocation.zoom,
     });
 
     const dropMarker = async ({ lngLat }) => {
-      const ym = new YouMarker(mapId, lngLat);
-      this.excludeKey = await pushResponse(mapId, lngLat);
+      const ym = new YouMarker(mapId, lngLat, this.name);
+      this.excludeKey = await pushResponse(mapId, lngLat, this.name);
       ym.addTo(this);
       ym.key = this.excludeKey;
-      ym.setDraggable(false);
       setResultsReady(true);
       this.off("click", dropMarker);
     };
+
+    this.setLocation = ({ lat, lng, zoom }) => {
+      this.setZoom(zoom);
+      this.setCenter([lng, lat]);
+    };
+
+    this.setName = (name) => (this.name = name);
 
     this.addResponses = async (mapId) => {
       const points = await getResponses(mapId);
       const displayPoints = points.filter((point) => point.id !== this.excludeKey);
       displayPoints.forEach((pt, i) => {
         setTimeout(() => {
-          const newMarker = new ResponseMarker({
-            lng: pt.location.lng,
-            lat: pt.location.lat,
-          });
+          const newMarker = new ResponseMarker(
+            {
+              lng: pt.location.lng,
+              lat: pt.location.lat,
+            },
+            pt.name
+          );
 
           newMarker.addTo(this);
         }, i * 50);

@@ -19,7 +19,7 @@ const MapPoll = () => {
   if (mapLoaded) {
     return (
       <>
-        <h3>{mapPoll.question}</h3>
+        <h3>{mapPoll.question || "(Untitled Poll)"}</h3>
         <div className="col-lg-8 col-md-9 col-sm-11 mx-auto">
           <MapPicker mapLocation={mapPoll.mapLocation} mapId={mapId} />
         </div>
