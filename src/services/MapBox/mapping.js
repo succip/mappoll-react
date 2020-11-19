@@ -45,10 +45,10 @@ export class MapPollPicker extends mapboxgl.Map {
     });
 
     const dropMarker = async ({ lngLat }) => {
-      const ym = new YouMarker(mapId, lngLat, this.name);
+      this.youMarker = new YouMarker(mapId, lngLat, this.name);
       this.excludeKey = await pushResponse(mapId, lngLat, this.name);
-      ym.addTo(this);
-      ym.key = this.excludeKey;
+      this.youMarker.addTo(this);
+      // this.youMarker.key = this.excludeKey;
       setResultsReady(true);
       this.off("click", dropMarker);
     };
@@ -77,6 +77,7 @@ export class MapPollPicker extends mapboxgl.Map {
         }, i * 50);
       });
 
+      this.youMarker.setDraggable(false);
       return points.length;
     };
 
@@ -110,6 +111,7 @@ export class MapPollBuilder extends mapboxgl.Map {
         return;
       }
 
+      // draw boundary when map is loaded
       if (this.loaded()) {
         this.addLayer({
           id: "extent",
