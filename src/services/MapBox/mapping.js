@@ -44,46 +44,46 @@ export class MapPollPicker extends mapboxgl.Map {
       style: "mapbox://styles/mapbox/streets-v11",
     });
 
+    this.name = "";
+
     const dropMarker = async ({ lngLat }) => {
       this.youMarker = new YouMarker(mapId, lngLat, this.name);
       this.excludeKey = await pushResponse(mapId, lngLat, this.name);
       this.youMarker.addTo(this);
-      // this.youMarker.key = this.excludeKey;
+      this.youMarker.key = this.excludeKey;
       setResultsReady(true);
       this.off("click", dropMarker);
-    };
-
-    this.setLocation = ({ lat, lng, zoom }) => {
-      this.setZoom(zoom);
-      this.setCenter([lng, lat]);
-    };
-
-    this.setName = (name) => (this.name = name);
-
-    this.addResponses = async (mapId) => {
-      const points = await getResponses(mapId);
-      const displayPoints = points.filter((point) => point.id !== this.excludeKey);
-      displayPoints.forEach((pt, i) => {
-        setTimeout(() => {
-          const newMarker = new ResponseMarker(
-            {
-              lng: pt.location.lng,
-              lat: pt.location.lat,
-            },
-            pt.name
-          );
-
-          newMarker.addTo(this);
-        }, i * 50);
-      });
-
-      this.youMarker.setDraggable(false);
-      return points.length;
     };
 
     this.on("click", dropMarker);
     this.on("mouseover", () => (this.getCanvas().style.cursor = "pointer"));
   }
+
+  setLocation = ({ lat, lng, zoom }) => {
+    this.setZoom(zoom);
+    this.setCenter([lng, lat]);
+  };
+
+  addResponses = async (mapId) => {
+    const points = await getResponses(mapId);
+    const displayPoints = points.filter((point) => point.id !== this.excludeKey);
+    displayPoints.forEach((pt, i) => {
+      setTimeout(() => {
+        const newMarker = new ResponseMarker(
+          {
+            lng: pt.location.lng,
+            lat: pt.location.lat,
+          },
+          pt.name
+        );
+
+        newMarker.addTo(this);
+      }, i * 50);
+    });
+
+    this.youMarker.setDraggable(false);
+    return points.length;
+  };
 }
 
 // Map object for building map poll in MapBuilder

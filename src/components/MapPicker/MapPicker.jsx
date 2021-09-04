@@ -24,7 +24,7 @@ const MapPicker = ({ mapLocation, mapId }) => {
   };
 
   useEffect(() => {
-    map.setName(name);
+    map.name = name;
   }, [name]);
 
   return (
