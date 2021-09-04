@@ -1,4 +1,4 @@
-import mapboxgl, { LngLat } from "mapbox-gl";
+import mapboxgl from "mapbox-gl";
 import { getResponses, pushResponse, updateResponse } from "../../firebase/responses/responses";
 import { buildPolygonFromBounds } from "../../utils/geometry";
 
@@ -50,7 +50,10 @@ export class MapPollPicker extends mapboxgl.Map {
       this.youMarker = new YouMarker(mapId, lngLat, this.name);
       this.excludeKey = await pushResponse(mapId, lngLat, this.name);
       this.youMarker.addTo(this);
+<<<<<<< HEAD
       this.youMarker.key = this.excludeKey;
+=======
+>>>>>>> 874345735f346b4a6795f1f36a97260619197593
       setResultsReady(true);
       this.off("click", dropMarker);
     };
